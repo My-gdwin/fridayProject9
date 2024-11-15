@@ -28,8 +28,10 @@ def get_response():
             ]
         )
         response = completion.choices[0].message.content
-        response_box.delete("1.0", tk.END)
-        response_box.insert(tk.END, response)
+        response_box.config(state=tk.NORMAL)  # Enable editing temporarily
+        response_box.delete("1.0", tk.END)  # Clear previous content
+        response_box.insert(tk.END, response)  # Insert new response
+        response_box.config(state=tk.DISABLED)  # Disable editing
     except Exception as e:
         messagebox.showerror("API Error", f"An error occurred: {e}")
 
@@ -56,6 +58,7 @@ response_label.pack(pady=5)
 # Response Display Box
 response_box = scrolledtext.ScrolledText(root, height=10, width=50, wrap=tk.WORD)
 response_box.pack(pady=5)
+response_box.config(state=tk.DISABLED)  # Disable editing
 
 # Start the GUI event loop
 root.mainloop()
