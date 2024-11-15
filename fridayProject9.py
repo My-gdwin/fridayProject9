@@ -5,8 +5,8 @@ import os
 from dotenv import load_dotenv
 
 # OpenAI API setup | MUST HAVE .env WITH key = 'INSERT API KEY HERE'
-api_key = os.getenv("key")
-openai.api_key = api_key
+key = os.getenv("key")
+client = openai.OpenAI(api_key=key)
 
 # Function to interact with OpenAI API
 def get_response():
@@ -17,14 +17,17 @@ def get_response():
     
     try:
         # OpenAI API call
-        completion = openai.ChatCompletion.create(
+        completion = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": user_input}
+                {
+                    "role": "user",
+                    "content": user_input
+                }
             ]
         )
-        response = completion.choices[0].message['content']
+        response = completion.choices[0].message.content
         response_box.delete("1.0", tk.END)
         response_box.insert(tk.END, response)
     except Exception as e:
