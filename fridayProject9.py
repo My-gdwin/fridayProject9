@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
 import openai
+import os
+from dotenv import load_dotenv
 
-# OpenAI API setup
-api_key = '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'
+# OpenAI API setup | MUST HAVE .env WITH key = 'INSERT API KEY HERE'
+api_key = os.getenv("key")
 openai.api_key = api_key
 
 # Function to interact with OpenAI API
